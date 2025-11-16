@@ -64,7 +64,7 @@ Partial Class Transactions
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI Semibold", 18.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label1.Font = New Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.White
         Label1.Location = New Point(8, 366)
         Label1.Name = "Label1"
@@ -121,7 +121,7 @@ Partial Class Transactions
         ' Label17
         ' 
         Label17.AutoSize = True
-        Label17.Font = New Font("Segoe UI Semibold", 18.0F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        Label17.Font = New Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label17.ForeColor = Color.White
         Label17.Location = New Point(15, 6)
         Label17.Name = "Label17"
@@ -131,7 +131,7 @@ Partial Class Transactions
         ' 
         ' Transactions
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(205), CByte(180), CByte(90))
         Controls.Add(Panel8)

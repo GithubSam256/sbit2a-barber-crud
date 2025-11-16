@@ -82,34 +82,18 @@ Public Class Transactions
     ' ===== 2️⃣ RESTOCK TRANSACTIONS TABLE =====
     Public Sub FillRestocksTable()
         Dim sql As String = "
-        SELECT 
-            ps.batch_id AS BatchID,
-            p.pet_name AS PetName,
-            c.category_name AS Category,
-            ps.quantity AS Qty,
-            ps.expiry_date AS ExpirationDate,
-            CASE 
-                WHEN (SELECT COUNT(*) FROM pet_stock ps2 WHERE ps2.pet_id = ps.pet_id AND ps2.batch_id < ps.batch_id) = 0 
-                THEN 'Initial Stock'
-                ELSE 'Restock'
-            END AS Type,
-            CONCAT(
-                CASE 
-                    WHEN (SELECT COUNT(*) FROM pet_stock ps2 WHERE ps2.pet_id = ps.pet_id AND ps2.batch_id < ps.batch_id) = 0 
-                    THEN 'Added '
-                    ELSE 'Restocked '
-                END,
-                ps.quantity, 'x (Batch ', ps.batch_id, '), total ',
-                (SELECT COALESCE(SUM(ps_total.quantity), 0) 
-                 FROM pet_stock ps_total 
-                 WHERE ps_total.pet_id = ps.pet_id 
-                 AND ps_total.batch_id <= ps.batch_id),
-                ' units.'
-            ) AS Remarks
-        FROM pet_stock ps
-        INNER JOIN pets p ON ps.pet_id = p.pet_id
-        LEFT JOIN pet_categories c ON p.category_id = c.category_id
-        ORDER BY ps.batch_id DESC;"
+SELECT 
+    pur.purchase_id AS ID,
+    p.pet_name AS ProductName,
+    pur.quantity AS Qty,
+    pur.purchase_price AS UnitCost,
+    pur.total_price AS TotalCost,
+    pur.purchase_date AS PurchaseDate,
+    CONCAT('Purchased ', pur.quantity, ' unit(s) @ ₱', FORMAT(pur.purchase_price, 2), ' = ₱', FORMAT(pur.total_price, 2)) AS Remarks
+FROM pet_purchases pur
+INNER JOIN pets p ON pur.pet_id = p.pet_id
+ORDER BY pur.purchase_date DESC;"
+
 
         Try
             Dim dt As DataTable = FillData(sql, ViewRestocksTable)
@@ -160,5 +144,6 @@ Public Class Transactions
     Private Sub SearchRestocks_TextChanged(sender As Object, e As EventArgs) Handles SearchBar1.TextChanged
         SearchData.ApplyFilterToBindingSource(SearchBar1.Text, bsRestocks, "PetName", "Category", "Type", "Remarks")
     End Sub
+
 
 End Class

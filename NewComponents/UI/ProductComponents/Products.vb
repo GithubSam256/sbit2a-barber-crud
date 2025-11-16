@@ -1,15 +1,13 @@
 ﻿Imports MySql.Data.MySqlClient
 Imports Mysqlx
-Imports Mysqlx.XDevAPI.Relational
 
 Public Class Product
 
     Private bs As New BindingSource()
 
-    Private Sub Category_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub NewCategory_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadProducts(PetTable)
         SetHeaderSize(PetTable)
-
 
         TableWithActions.TableWithButtons(PetTable, AddressOf UpdateProduct, AddressOf DeleteCategory)
     End Sub
@@ -216,9 +214,6 @@ Public Class Product
                             New MySqlParameter("@purchase_price", cost)
                         }
 
-                        'sam 
-
-
                         Dim purchaseIdObj As Object = GlobalCrud.ExecuteScalar(purchaseSql, purchaseParams)
 
                         If purchaseIdObj IsNot Nothing Then
@@ -255,9 +250,7 @@ Public Class Product
         End Using
     End Sub
 
-
-
-    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
+    Private Sub SearchBar_TextChanged(sender As Object, e As EventArgs) Handles TextBox1.TextChanged
         Dim searchTerm As String = TextBox1.Text.Trim().Replace("'", "''")
         SearchData.ApplyFilterToBindingSource(searchTerm, bs, "Product")
     End Sub

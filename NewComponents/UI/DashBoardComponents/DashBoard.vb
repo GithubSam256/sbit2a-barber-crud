@@ -4,7 +4,8 @@ Public Class DashBoard
     Private Sub DashBoard_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'CreateSalesChartt()
         'ForColumnBar()
-        LoadCardData()
+        'LoadCardData()
+        CardDataLoader.LoadCardData(TotalProduct, TotalSales, TotalCost, TotalProfit)
         CardDataLoader.LoadPercentDataCards(Label8, Label12, Label16)
         ChartsCRUD.LoadPieChart(PieChart, Color.FromArgb(82, 75, 67))
         ChartsCRUD.LoadColumnChart(BarChart, "")
@@ -52,55 +53,55 @@ Public Class DashBoard
     '    CreateSimpleColumnChart(BarChart, categories, values, barColors)
     'End Sub
 
-    Public Sub LoadCardData()
-        Try
-            ' ✅ Total Pets
-            Dim totalPets As Object = GlobalCrud.ExecuteScalar("SELECT COUNT(*) FROM pets;", Nothing)
-            TotalProduct.Text = If(totalPets IsNot Nothing, totalPets.ToString(), "0")
+    'Public Sub LoadCardData()
+    '    Try
+    '        ' ✅ Total Pets
+    '        Dim totalPets As Object = GlobalCrud.ExecuteScalar("SELECT COUNT(*) FROM pets;", Nothing)
+    '        TotalProduct.Text = If(totalPets IsNot Nothing, totalPets.ToString(), "0")
 
-            ' ✅ Total Sales Revenue
-            Dim totalSalesRevenue As Object = GlobalCrud.ExecuteScalar("SELECT IFNULL(SUM(total_price), 0) FROM pet_sales;", Nothing)
-            If totalSalesRevenue IsNot Nothing Then
-                Dim salesValue As Decimal = Convert.ToDecimal(totalSalesRevenue)
-                TotalSales.Text = salesValue.ToString("N2")
-            Else
-                TotalSales.Text = "0.00"
-            End If
+    '        ' ✅ Total Sales Revenue
+    '        Dim totalSalesRevenue As Object = GlobalCrud.ExecuteScalar("SELECT IFNULL(SUM(total_price), 0) FROM pet_sales;", Nothing)
+    '        If totalSalesRevenue IsNot Nothing Then
+    '            Dim salesValue As Decimal = Convert.ToDecimal(totalSalesRevenue)
+    '            TotalSales.Text = salesValue.ToString("N2")
+    '        Else
+    '            TotalSales.Text = "0.00"
+    '        End If
 
-            ' ✅ Total Cost
-            Dim totalCostValue As Object = GlobalCrud.ExecuteScalar(
-            "SELECT IFNULL(SUM(s.quantity * p.cost_price), 0) " &
-            "FROM pet_sales s " &
-            "INNER JOIN pets p ON s.pet_id = p.pet_id;", Nothing
-        )
-            If totalCostValue IsNot Nothing Then
-                Dim costValue As Decimal = Convert.ToDecimal(totalCostValue)
-                TotalCost.Text = costValue.ToString("N2")
-            Else
-                TotalCost.Text = "0.00"
-            End If
+    '        ' ✅ Total Cost
+    '        Dim totalCostValue As Object = GlobalCrud.ExecuteScalar(
+    '        "SELECT IFNULL(SUM(s.quantity * p.cost_price), 0) " &
+    '        "FROM pet_sales s " &
+    '        "INNER JOIN pets p ON s.pet_id = p.pet_id;", Nothing
+    '    )
+    '        If totalCostValue IsNot Nothing Then
+    '            Dim costValue As Decimal = Convert.ToDecimal(totalCostValue)
+    '            TotalCost.Text = costValue.ToString("N2")
+    '        Else
+    '            TotalCost.Text = "0.00"
+    '        End If
 
-            ' ✅ Total Profit
-            Dim totalProfitValue As Object = GlobalCrud.ExecuteScalar(
-            "SELECT IFNULL(SUM(s.quantity * (s.sale_price - p.cost_price)), 0) " &
-            "FROM pet_sales s " &
-            "INNER JOIN pets p ON s.pet_id = p.pet_id;", Nothing
-        )
-            If totalProfitValue IsNot Nothing Then
-                Dim profitValue As Decimal = Convert.ToDecimal(totalProfitValue)
-                TotalProfit.Text = profitValue.ToString("N2")
-            Else
-                TotalProfit.Text = "0.00"
-            End If
+    '        ' ✅ Total Profit
+    '        Dim totalProfitValue As Object = GlobalCrud.ExecuteScalar(
+    '        "SELECT IFNULL(SUM(s.quantity * (s.sale_price - p.cost_price)), 0) " &
+    '        "FROM pet_sales s " &
+    '        "INNER JOIN pets p ON s.pet_id = p.pet_id;", Nothing
+    '    )
+    '        If totalProfitValue IsNot Nothing Then
+    '            Dim profitValue As Decimal = Convert.ToDecimal(totalProfitValue)
+    '            TotalProfit.Text = profitValue.ToString("N2")
+    '        Else
+    '            TotalProfit.Text = "0.00"
+    '        End If
 
-        Catch ex As Exception
-            MessageBox.Show("Error loading card data: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+    '    Catch ex As Exception
+    '        MessageBox.Show("Error loading card data: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
 
-            TotalProduct.Text = "0"
-            TotalSales.Text = "0.00"
-            TotalCost.Text = "0.00"
-            TotalProfit.Text = "0.00"
-        End Try
-    End Sub
+    '        TotalProduct.Text = "0"
+    '        TotalSales.Text = "0.00"
+    '        TotalCost.Text = "0.00"
+    '        TotalProfit.Text = "0.00"
+    '    End Try
+    'End Sub
 
 End Class

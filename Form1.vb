@@ -8,7 +8,7 @@ Public Class Form1
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddHandler SideBar1.showgifclicked, AddressOf showgif
-        InitializeDatabase()
+
     End Sub
 
 

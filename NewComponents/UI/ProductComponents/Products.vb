@@ -216,6 +216,9 @@ Public Class Product
                             New MySqlParameter("@purchase_price", cost)
                         }
 
+                        'sam 
+
+
                         Dim purchaseIdObj As Object = GlobalCrud.ExecuteScalar(purchaseSql, purchaseParams)
 
                         If purchaseIdObj IsNot Nothing Then
